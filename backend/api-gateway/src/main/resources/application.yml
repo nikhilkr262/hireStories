@@ -15,8 +15,7 @@ spring:
           uri: ${INTERVIEW_SERVICE_URL:http://interview-service:8082}
           predicates:
             - Path=/interviews/**, /resources/**
-          filters:
-            - Authentication
+
       globalcors:
         cors-configurations:
           '[/**]':
