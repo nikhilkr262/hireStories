@@ -17,7 +17,8 @@ export default function Browse() {
         if (filters.company) params.company = filters.company;
         if (filters.jobRole) params.jobRole = filters.jobRole;
 
-        axios.get('http://localhost:8082/interviews', { params })
+        const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+        axios.get(`${baseUrl}/interviews`, { params })
             .then(res => setInterviews(res.data))
             .catch(err => console.error(err))
             .finally(() => setLoading(false));
@@ -40,7 +41,8 @@ export default function Browse() {
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this experience?")) {
             try {
-                await axios.delete(`http://localhost:8082/interviews/${id}`, {
+                const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+                await axios.delete(`${baseUrl}/interviews/${id}`, {
                     headers: { 'X-Username': user.username }
                 });
                 fetchInterviews(); // Refresh list

@@ -12,7 +12,8 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:8081/auth/login', formData);
+            const baseUrl = import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:8081';
+            const res = await axios.post(`${baseUrl}/auth/login`, formData);
             login(res.data);
             navigate('/');
         } catch (err) {

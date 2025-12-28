@@ -12,7 +12,8 @@ export default function InterviewDetail() {
     const [newComment, setNewComment] = useState('');
 
     const fetchInterview = () => {
-        axios.get(`http://localhost:8082/interviews/${id}`)
+        const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+        axios.get(`${baseUrl}/interviews/${id}`)
             .then(res => setInterview(res.data))
             .catch(err => console.error(err))
             .finally(() => setLoading(false));
@@ -25,7 +26,8 @@ export default function InterviewDetail() {
     const handleUpvote = async () => {
         if (!user) return alert('Login to upvote');
         try {
-            await axios.post(`http://localhost:8082/interviews/${id}/upvote`, {}, {
+            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            await axios.post(`${baseUrl}/interviews/${id}/upvote`, {}, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
             fetchInterview(); // Refresh to see count update
@@ -38,7 +40,8 @@ export default function InterviewDetail() {
         e.preventDefault();
         if (!user) return alert('Login to comment');
         try {
-            await axios.post(`http://localhost:8082/interviews/${id}/comments`, {
+            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            await axios.post(`${baseUrl}/interviews/${id}/comments`, {
                 content: newComment,
                 authorUsername: user.username
             }, {

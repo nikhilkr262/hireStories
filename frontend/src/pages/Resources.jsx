@@ -27,7 +27,8 @@ export default function Resources() {
         setError(null);
         try {
             // Direct call to Interview Service (Port 8082)
-            const res = await axios.get('http://localhost:8082/resources');
+            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            const res = await axios.get(`${baseUrl}/resources`);
             setResources(res.data);
         } catch (err) {
             console.error("Failed to fetch resources", err);
@@ -60,7 +61,8 @@ export default function Resources() {
 
         setUploading(true);
         try {
-            await axios.post('http://localhost:8082/resources', formData, {
+            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            await axios.post(`${baseUrl}/resources`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     'X-Username': user.username
@@ -83,7 +85,8 @@ export default function Resources() {
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this resource?")) {
             try {
-                await axios.delete(`http://localhost:8082/resources/${id}`, {
+                const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+                await axios.delete(`${baseUrl}/resources/${id}`, {
                     headers: { 'X-Username': user.username }
                 });
                 fetchResources();
@@ -111,7 +114,8 @@ export default function Resources() {
             }
         } else {
             // Trigger download via window.location or open in new tab
-            window.open(`http://localhost:8082/resources/${id}/download`, '_blank');
+            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            window.open(`${baseUrl}/resources/${id}/download`, '_blank');
         }
     };
 

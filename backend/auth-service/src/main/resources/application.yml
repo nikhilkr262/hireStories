@@ -1,13 +1,13 @@
 server:
-  port: 8081
+  port: ${PORT:8081}
 
 spring:
   application:
     name: auth-service
   datasource:
-    url: jdbc:postgresql://localhost:5432/hirestories_db
-    username: postgres
-    password: password
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/hirestories_db}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:password}
   jpa:
     hibernate:
       ddl-auto: update
@@ -17,8 +17,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: hirestoriesinfo@gmail.com
-    password: gqrm fbwj njix pbwp
+    username: ${MAIL_USERNAME:hirestoriesinfo@gmail.com}
+    password: ${MAIL_PASSWORD:gqrm fbwj njix pbwp}
     properties:
       mail:
         smtp:
@@ -27,5 +27,5 @@ spring:
             enable: true
 
 jwt:
-  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  secret: ${JWT_SECRET:404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970}
   expiration: 86400000 # 1 day

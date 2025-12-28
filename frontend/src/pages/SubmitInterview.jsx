@@ -27,7 +27,8 @@ export default function SubmitInterview() {
 
         if (isEditMode) {
             // Fetch existing data
-            axios.get(`http://localhost:8082/interviews/${id}`)
+            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            axios.get(`${baseUrl}/interviews/${id}`)
                 .then(res => {
                     // Start editing
                     // Verify ownership (optional here, backend enforces it on save)
@@ -56,7 +57,8 @@ export default function SubmitInterview() {
         e.preventDefault();
         try {
             if (isEditMode) {
-                await axios.put(`http://localhost:8082/interviews/${id}`, { ...formData, authorUsername: user.username }, {
+                const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+                await axios.put(`${baseUrl}/interviews/${id}`, { ...formData, authorUsername: user.username }, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
                         'X-Username': user.username
@@ -64,7 +66,8 @@ export default function SubmitInterview() {
                 });
                 alert("Experience updated successfully!");
             } else {
-                await axios.post('http://localhost:8082/interviews', { ...formData, authorUsername: user.username }, {
+                const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+                await axios.post(`${baseUrl}/interviews`, { ...formData, authorUsername: user.username }, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });
                 alert("Experience shared successfully!");

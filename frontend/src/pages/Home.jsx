@@ -11,7 +11,8 @@ export default function Home() {
 
     useEffect(() => {
         // Fetch recent interviews
-        axios.get('http://localhost:8082/interviews')
+        const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+        axios.get(`${baseUrl}/interviews`)
             .then(res => setInterviews(res.data.slice(0, 3))) // Show top 3
             .catch(err => console.error(err))
             .finally(() => setLoading(false));

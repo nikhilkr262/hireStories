@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://localhost:8080', // Gateway URL
+    baseURL: import.meta.env.VITE_API_GATEWAY_URL || 'http://localhost:8080',
 });
 
 api.interceptors.request.use((config) => {

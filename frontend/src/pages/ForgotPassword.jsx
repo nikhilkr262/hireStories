@@ -20,7 +20,8 @@ export default function ForgotPassword() {
         setError('');
         try {
             // Direct call to Auth Service (Port 8081)
-            await axios.post('http://localhost:8081/auth/forgot-password', { email });
+            const baseUrl = import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:8081';
+            await axios.post(`${baseUrl}/auth/forgot-password`, { email });
             setMessage('OTP sent to your email! (Check backend console for local dev)');
             setStep(2);
         } catch (err) {
@@ -42,7 +43,8 @@ export default function ForgotPassword() {
         setMessage('');
         setError('');
         try {
-            await axios.post('http://localhost:8081/auth/reset-password', {
+            const baseUrl = import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:8081';
+            await axios.post(`${baseUrl}/auth/reset-password`, {
                 email,
                 otp,
                 newPassword

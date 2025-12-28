@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 spring:
   application:
@@ -8,13 +8,13 @@ spring:
     gateway:
       routes:
         - id: auth-service
-          uri: http://auth-service:8081
+          uri: ${AUTH_SERVICE_URL:http://auth-service:8081}
           predicates:
             - Path=/auth/**
         - id: interview-service
-          uri: http://interview-service:8082
+          uri: ${INTERVIEW_SERVICE_URL:http://interview-service:8082}
           predicates:
-            - Path=/interviews/**
+            - Path=/interviews/**, /resources/**
           filters:
             - Authentication
       globalcors:

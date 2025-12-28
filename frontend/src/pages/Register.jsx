@@ -10,7 +10,8 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:8081/auth/register', formData);
+            const baseUrl = import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:8081';
+            await axios.post(`${baseUrl}/auth/register`, formData);
             navigate('/login');
         } catch (err) {
             console.error(err);
