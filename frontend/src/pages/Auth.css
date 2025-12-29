@@ -1,0 +1,34 @@
+/* Auth.css */
+.auth-container {
+    max-width: 400px;
+    margin-top: 4rem;
+}
+
+.auth-header {
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.auth-btn {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.auth-actions {
+    text-align: center;
+    margin-top: 1rem;
+}
+
+.auth-footer {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+    .auth-container {
+        margin-top: 2rem;
+        padding: 0 1rem;
+    }
+}

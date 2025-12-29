@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import './Home.css';
 
 export default function Home() {
     const [interviews, setInterviews] = useState([]);
@@ -28,65 +29,60 @@ export default function Home() {
         }
     };
 
+    const getBadgeClass = (result) => {
+        if (result === 'Selected') return 'story-badge selected';
+        if (result === 'Rejected') return 'story-badge rejected';
+        return 'story-badge pending';
+    };
+
     return (
-        <div className="container" style={{ padding: '4rem 0' }}>
-            <header style={{ textAlign: 'center', marginBottom: '4rem' }}>
-                <h1 style={{
-                    fontSize: '3.5rem', fontWeight: '800', marginBottom: '1rem',
-                    background: 'linear-gradient(135deg, var(--primary), #9333ea)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent'
-                }}>
+        <div className="container home-container">
+            <header className="hero-section">
+                <h1 className="hero-title">
                     HireStories
                 </h1>
-                <p style={{ fontSize: '1.5rem', color: 'var(--text-secondary)', fontWeight: '500' }}>
+                <p className="hero-subtitle">
                     From Developers, For Developers.
                 </p>
-                <p style={{ maxWidth: '600px', margin: '1rem auto 2rem', color: 'var(--text-secondary)' }}>
+                <p className="hero-description">
                     Discover real interview experiences shared by engineers worldwide.
                 </p>
-                <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
-                    <Link to="/browse" className="btn btn-primary" style={{ padding: '0.75rem 2rem', fontSize: '1.1rem' }}>
+                <div className="hero-buttons">
+                    <Link to="/browse" className="btn btn-primary hero-btn">
                         Start Reading
                     </Link>
-                    <Link to="/submit" className="btn btn-outline" style={{ padding: '0.75rem 2rem', fontSize: '1.1rem' }}>
+                    <Link to="/submit" className="btn btn-outline hero-btn">
                         Share Experience
                     </Link>
                 </div>
             </header>
 
             <section>
-                <h2 style={{ fontSize: '2rem', marginBottom: '2rem' }}>Recent Stories</h2>
+                <h2 className="section-title">Recent Stories</h2>
                 {loading ? (
                     <p>Loading stories...</p>
                 ) : (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '2rem' }}>
+                    <div className="stories-grid">
                         {interviews.map(interview => (
                             <div key={interview.id} className="card">
-                                <div style={{ marginBottom: '1rem' }}>
-                                    <h3 style={{ fontSize: '1.25rem', fontWeight: '600' }}>{interview.company}</h3>
+                                <div className="story-header">
+                                    <h3>{interview.company}</h3>
                                     <span style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>{interview.jobRole}</span>
                                 </div>
-                                <div style={{ marginBottom: '1rem' }}>
-                                    <span style={{
-                                        display: 'inline-block', padding: '0.25rem 0.75rem', borderRadius: '999px', fontSize: '0.75rem', fontWeight: '600',
-                                        backgroundColor: interview.result === 'Selected' ? '#dcfce7' : interview.result === 'Rejected' ? '#fee2e2' : '#fef9c3',
-                                        color: interview.result === 'Selected' ? '#166534' : interview.result === 'Rejected' ? '#991b1b' : '#854d0e'
-                                    }}>
+                                <div className="story-meta">
+                                    <span className={getBadgeClass(interview.result)}>
                                         {interview.result}
                                     </span>
                                     <span style={{ marginLeft: '0.5rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
                                         {interview.difficulty}
                                     </span>
                                 </div>
-                                <p style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1rem', display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                                <p className="story-excerpt">
                                     {interview.rounds}
                                 </p>
                                 <button
                                     onClick={() => handleReadMore(interview.id)}
-                                    style={{
-                                        background: 'none', border: 'none', padding: 0,
-                                        color: 'var(--primary)', fontWeight: '500', fontSize: '0.875rem',
-                                        cursor: 'pointer', textDecoration: 'underline'
-                                    }}
+                                    className="read-more-btn"
                                 >
                                     Read Full Story &rarr;
                                 </button>

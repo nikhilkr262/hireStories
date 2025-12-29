@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import './Auth.css';
 
 export default function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -26,9 +27,9 @@ export default function Login() {
     };
 
     return (
-        <div className="container" style={{ maxWidth: '400px', marginTop: '4rem' }}>
+        <div className="container auth-container">
             <div className="card">
-                <h2 style={{ marginBottom: '1.5rem', textAlign: 'center' }}>Welcome Back</h2>
+                <h2 className="auth-header">Welcome Back</h2>
                 {error && <div style={{ color: 'var(--error)', marginBottom: '1rem', fontSize: '0.875rem' }}>{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -51,14 +52,14 @@ export default function Login() {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
+                    <button type="submit" className="btn btn-primary auth-btn">
                         Login
                     </button>
-                    <div style={{ textAlign: 'center', marginTop: '1rem' }}>
+                    <div className="auth-actions">
                         <Link to="/forgot-password" style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>Forgot Password?</Link>
                     </div>
                 </form>
-                <p style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                <p className="auth-footer">
                     Don't have an account? <Link to="/register" style={{ color: 'var(--primary)' }}>Register</Link>
                 </p>
             </div>

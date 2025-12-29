@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../utils/api';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import './Browse.css';
 
 export default function Browse() {
     const [interviews, setInterviews] = useState([]);
@@ -54,23 +54,21 @@ export default function Browse() {
     };
 
     return (
-        <div className="container" style={{ padding: '2rem 0' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
-                <h2 style={{ fontSize: '2rem' }}>Browse Experiences</h2>
-                <div style={{ display: 'flex', gap: '1rem' }}>
+        <div className="container browse-container">
+            <div className="browse-header">
+                <h2 className="browse-title">Browse Experiences</h2>
+                <div className="search-bar">
                     <input
                         type="text"
                         placeholder="Company..."
-                        className="form-input"
-                        style={{ width: '200px' }}
+                        className="form-input search-input"
                         value={filters.company}
                         onChange={e => setFilters({ ...filters, company: e.target.value })}
                     />
                     <input
                         type="text"
                         placeholder="Role..."
-                        className="form-input"
-                        style={{ width: '200px' }}
+                        className="form-input search-input"
                         value={filters.jobRole}
                         onChange={e => setFilters({ ...filters, jobRole: e.target.value })}
                     />
@@ -81,17 +79,17 @@ export default function Browse() {
             {loading ? (
                 <p>Loading...</p>
             ) : (
-                <div style={{ display: 'grid', gap: '1.5rem' }}>
+                <div className="browse-list">
                     {interviews.map(interview => (
-                        <div key={interview.id} className="card" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <div>
-                                <h3 style={{ fontSize: '1.25rem', fontWeight: '600' }}>{interview.company} <span style={{ color: 'var(--text-secondary)', fontWeight: '400' }}>| {interview.jobRole}</span></h3>
-                                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
-                                    <span style={{ fontSize: '0.875rem', padding: '0.1rem 0.5rem', backgroundColor: 'var(--bg-color)', borderRadius: '4px' }}>{interview.experienceRange} exp</span>
-                                    <span style={{ fontSize: '0.875rem', padding: '0.1rem 0.5rem', backgroundColor: 'var(--bg-color)', borderRadius: '4px' }}>{interview.difficulty}</span>
+                        <div key={interview.id} className="card browse-card">
+                            <div className="browse-card-content">
+                                <h3 className="browse-card-title">{interview.company} <span className="browse-card-subtitle">| {interview.jobRole}</span></h3>
+                                <div className="browse-card-meta">
+                                    <span className="meta-badge">{interview.experienceRange} exp</span>
+                                    <span className="meta-badge">{interview.difficulty}</span>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                            <div className="browse-card-actions">
                                 {user && user.username === interview.authorUsername && (
                                     <>
                                         <button

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import './Interview.css';
 
 export default function SubmitInterview() {
     const { user } = useAuth();
@@ -84,22 +85,21 @@ export default function SubmitInterview() {
     };
 
     return (
-        <div className="container" style={{ maxWidth: '600px', padding: '4rem 0' }}>
+        <div className="container submit-container">
             <div className="card">
                 <h2 style={{ marginBottom: '1.5rem' }}>{isEditMode ? 'Edit Interview Experience' : 'Share Interview Experience'}</h2>
                 <form onSubmit={handleSubmit}>
-                    {/* ... form fields ... */}
                     <div className="form-group">
                         <label className="form-label">Company Name</label>
                         <input name="company" value={formData.company} onChange={handleChange} className="form-input" required />
                     </div>
-                    {/* ... other fields identical, just ensuring surround context ... */}
+
                     <div className="form-group">
                         <label className="form-label">Job Role</label>
                         <input name="jobRole" value={formData.jobRole} onChange={handleChange} className="form-input" required />
                     </div>
-                    {/* ... skipping generic fields for brevity in tool call, relying on surrounding matches ... */}
-                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+
+                    <div className="form-grid-2">
                         <div className="form-group">
                             <label className="form-label">Experience Range</label>
                             <select name="experienceRange" value={formData.experienceRange} onChange={handleChange} className="form-input">

@@ -1,36 +1,47 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import './Navbar.css';
 
 export default function Navbar() {
     const { user, logout } = useAuth();
     const navigate = useNavigate();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
         navigate('/');
+        setIsMenuOpen(false);
+    };
+
+    const toggleMenu = () => {
+        setIsMenuOpen(!isMenuOpen);
+    };
+
+    const closeMenu = () => {
+        setIsMenuOpen(false);
     };
 
     return (
-        <nav style={{
-            backgroundColor: 'var(--card-bg)',
-            borderBottom: '1px solid var(--border-color)',
-            padding: '1rem 0',
-            position: 'sticky',
-            top: 0,
-            zIndex: 50
-        }}>
-            <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Link to="/" style={{ fontSize: '1.5rem', fontWeight: 'bold', color: 'var(--primary)' }}>
+        <nav className="navbar">
+            <div className="container nav-container">
+                <Link to="/" className="nav-logo" onClick={closeMenu}>
                     HireStories
                 </Link>
 
-                <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-                    <Link to="/browse" className="nav-link">Browse</Link>
-                    <Link to="/resources" className="nav-link">Resources</Link>
+                <button className="nav-toggle" onClick={toggleMenu} aria-label="Toggle navigation">
+                    <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+                    <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+                    <span className={`hamburger-line ${isMenuOpen ? 'open' : ''}`}></span>
+                </button>
+
+                <div className={`nav-links ${isMenuOpen ? 'open' : ''}`}>
+                    <Link to="/browse" className="nav-link" onClick={closeMenu}>Browse</Link>
+                    <Link to="/resources" className="nav-link" onClick={closeMenu}>Resources</Link>
 
                     {user ? (
-                        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                            <Link to="/submit" className="nav-link">Share Experience</Link>
+                        <div className="nav-user-section">
+                            <Link to="/submit" className="nav-link" onClick={closeMenu}>Share Experience</Link>
                             <span style={{ color: 'var(--text-secondary)' }}>
                                 Hello, <span style={{ color: 'var(--text-primary)', fontWeight: 'bold' }}>{user.username}</span>
                             </span>
@@ -39,9 +50,9 @@ export default function Navbar() {
                             </button>
                         </div>
                     ) : (
-                        <div style={{ display: 'flex', gap: '1rem' }}>
-                            <Link to="/login" className="btn btn-outline">Login</Link>
-                            <Link to="/register" className="btn btn-primary">Register</Link>
+                        <div className="nav-user-section">
+                            <Link to="/login" className="btn btn-outline" onClick={closeMenu}>Login</Link>
+                            <Link to="/register" className="btn btn-primary" onClick={closeMenu}>Register</Link>
                         </div>
                     )}
                 </div>

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import './Resources.css';
 
 export default function Resources() {
     const [resources, setResources] = useState([]);
@@ -18,6 +19,7 @@ export default function Resources() {
     const [uploading, setUploading] = useState(false);
 
     const [error, setError] = useState(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetchResources();
@@ -106,7 +108,6 @@ export default function Resources() {
         }
     };
 
-    const navigate = useNavigate();
     const handleDownload = (id) => {
         if (!user) {
             if (window.confirm("You need to login to download this resource. Go to login?")) {
@@ -120,12 +121,12 @@ export default function Resources() {
     };
 
     return (
-        <div className="container" style={{ padding: '2rem 0' }}>
-            {/* Header ... */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <div className="container resources-container">
+            {/* Header */}
+            <div className="resources-header">
                 <div>
-                    <h1 style={{ fontSize: '2rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>Learning Resources</h1>
-                    <p style={{ color: 'var(--text-secondary)' }}>Share and discover materials for interview preparation.</p>
+                    <h1 className="resources-title">Learning Resources</h1>
+                    <p className="resources-subtitle">Share and discover materials for interview preparation.</p>
                 </div>
                 {user && (
                     <button className="btn btn-primary" onClick={() => setShowModal(true)}>
@@ -143,30 +144,27 @@ export default function Resources() {
             {loading ? (
                 <div style={{ textAlign: 'center', padding: '2rem' }}>Loading resources...</div>
             ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1.5rem' }}>
+                <div className="resources-grid">
                     {resources.map(res => (
-                        <div key={res.id} className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                            <div style={{ display: 'flex', alignItems: 'start', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                                <span style={{ fontSize: '2rem' }}>{getIcon(res.type)}</span>
-                                <span style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem', backgroundColor: 'var(--bg-secondary)', borderRadius: '4px', color: 'var(--text-secondary)' }}>
+                        <div key={res.id} className="card resource-card">
+                            <div className="resource-card-header">
+                                <span className="resource-icon">{getIcon(res.type)}</span>
+                                <span className="resource-type-badge">
                                     {res.type}
                                 </span>
                             </div>
-                            <h3 style={{ fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.5rem' }}>{res.title}</h3>
-                            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', flex: 1, marginBottom: '1rem' }}>
+                            <h3 className="resource-card-title">{res.title}</h3>
+                            <p className="resource-card-description">
                                 {res.description || 'No description provided.'}
                             </p>
 
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: 'auto', paddingTop: '1rem', borderTop: '1px solid var(--border)' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.25rem' }}>
-                                    <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>By <strong>{res.username}</strong></span>
+                            <div className="resource-card-footer">
+                                <div className="resource-card-meta">
+                                    <span className="resource-author">By <strong>{res.username}</strong></span>
                                     {user && user.username === res.username && (
                                         <button
                                             onClick={() => handleDelete(res.id)}
-                                            style={{
-                                                background: 'none', border: 'none', padding: 0,
-                                                color: '#ef4444', fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', textDecoration: 'underline'
-                                            }}
+                                            className="delete-btn"
                                         >
                                             Delete
                                         </button>
@@ -198,11 +196,8 @@ export default function Resources() {
 
             {/* Upload Modal */}
             {showModal && (
-                <div style={{
-                    position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-                    backgroundColor: 'rgba(0,0,0,0.7)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000
-                }}>
-                    <div className="card" style={{ width: '100%', maxWidth: '500px', margin: '1rem' }}>
+                <div className="modal-overlay">
+                    <div className="card modal-content">
                         <h2 style={{ marginBottom: '1.5rem' }}>Share a Resource</h2>
                         <form onSubmit={handleSubmit}>
                             <div className="form-group">

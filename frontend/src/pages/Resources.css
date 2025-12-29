@@ -1,0 +1,128 @@
+/* Resources.css */
+.resources-container {
+    padding: 2rem 0;
+}
+
+.resources-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.resources-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.resources-subtitle {
+    color: var(--text-secondary);
+}
+
+.resources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.resource-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.resource-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.resource-icon {
+    font-size: 2rem;
+}
+
+.resource-type-badge {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--bg-color);
+    border-radius: 4px;
+    color: var(--text-secondary);
+}
+
+.resource-card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.resource-card-description {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    flex: 1;
+    margin-bottom: 1rem;
+}
+
+.resource-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: auto;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.resource-card-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.resource-author {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.delete-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--error);
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-align: left;
+    text-decoration: underline;
+}
+
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    width: 100%;
+    max-width: 500px;
+    margin: 1rem;
+}
+
+@media (max-width: 768px) {
+    .resources-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .resources-grid {
+        grid-template-columns: 1fr;
+    }
+}

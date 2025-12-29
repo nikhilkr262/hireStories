@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import api from '../utils/api';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
+import './Interview.css';
 
 export default function InterviewDetail() {
     const { id } = useParams();
@@ -57,21 +57,28 @@ export default function InterviewDetail() {
     if (loading) return <div className="container" style={{ padding: '4rem 0' }}>Loading...</div>;
     if (!interview) return <div className="container" style={{ padding: '4rem 0' }}>Interview not found</div>;
 
+    const getResultColor = (result) => {
+        if (result === 'Selected') return { bg: '#dcfce7', text: '#166534' };
+        if (result === 'Rejected') return { bg: '#fee2e2', text: '#991b1b' };
+        return { bg: '#fef9c3', text: '#854d0e' };
+    };
+    const resultColor = getResultColor(interview.result);
+
     return (
-        <div className="container" style={{ padding: '4rem 0' }}>
-            <Link to="/browse" style={{ color: 'var(--text-secondary)', marginBottom: '1rem', display: 'inline-block' }}>&larr; Back to Browse</Link>
+        <div className="container interview-container">
+            <Link to="/browse" className="back-link">&larr; Back to Browse</Link>
 
             <div className="card">
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '1.5rem' }}>
+                <div className="interview-header">
                     <div>
-                        <h1 style={{ fontSize: '2rem', fontWeight: 'bold' }}>{interview.company}</h1>
-                        <p style={{ fontSize: '1.25rem', color: 'var(--text-secondary)' }}>{interview.jobRole}</p>
+                        <h1 className="interview-title">{interview.company}</h1>
+                        <p className="interview-role">{interview.jobRole}</p>
                     </div>
-                    <div style={{ textAlign: 'right' }}>
+                    <div className="interview-meta-header">
                         <span style={{
                             display: 'inline-block', padding: '0.25rem 0.75rem', borderRadius: '999px', fontSize: '0.875rem', fontWeight: '600',
-                            backgroundColor: interview.result === 'Selected' ? '#dcfce7' : interview.result === 'Rejected' ? '#fee2e2' : '#fef9c3',
-                            color: interview.result === 'Selected' ? '#166534' : interview.result === 'Rejected' ? '#991b1b' : '#854d0e',
+                            backgroundColor: resultColor.bg,
+                            color: resultColor.text,
                             marginBottom: '0.5rem'
                         }}>
                             {interview.result}
@@ -80,32 +87,32 @@ export default function InterviewDetail() {
                     </div>
                 </div>
 
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', marginBottom: '2rem', padding: '1rem', backgroundColor: 'var(--bg-color)', borderRadius: 'var(--radius-md)' }}>
+                <div className="interview-stats-grid">
                     <div>
-                        <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Experience</span>
-                        <span style={{ fontWeight: 600 }}>{interview.experienceRange}</span>
+                        <span className="stat-label">Experience</span>
+                        <span className="stat-value">{interview.experienceRange}</span>
                     </div>
                     <div>
-                        <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Difficulty</span>
-                        <span style={{ fontWeight: 600 }}>{interview.difficulty}</span>
+                        <span className="stat-label">Difficulty</span>
+                        <span className="stat-value">{interview.difficulty}</span>
                     </div>
                     <div>
-                        <span style={{ display: 'block', fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Upvotes</span>
-                        <span style={{ fontWeight: 600 }}>{interview.upvoteCount}</span>
+                        <span className="stat-label">Upvotes</span>
+                        <span className="stat-value">{interview.upvoteCount}</span>
                     </div>
                 </div>
 
-                <div style={{ marginBottom: '2rem' }}>
-                    <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>Rounds & Questions</h3>
+                <div className="interview-section">
+                    <h3 className="section-subtitle">Rounds & Questions</h3>
                     <div style={{ whiteSpace: 'pre-wrap', lineHeight: '1.7' }}>{interview.rounds}</div>
                 </div>
 
                 {interview.techStack && (
-                    <div style={{ marginBottom: '2rem' }}>
-                        <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>Tech Stack</h3>
-                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    <div className="interview-section">
+                        <h3 className="section-subtitle">Tech Stack</h3>
+                        <div className="tech-stack-container">
                             {interview.techStack.split(',').map(tech => (
-                                <span key={tech} style={{ backgroundColor: 'var(--bg-color)', padding: '0.25rem 0.75rem', borderRadius: '4px', fontSize: '0.875rem' }}>
+                                <span key={tech} className="tech-tag">
                                     {tech.trim()}
                                 </span>
                             ))}
@@ -113,7 +120,7 @@ export default function InterviewDetail() {
                     </div>
                 )}
 
-                <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem', marginTop: '1.5rem' }}>
+                <div className="interview-footer">
                     <button onClick={handleUpvote} className="btn btn-outline" style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
                         <span>👍</span>
                         <span>Helpful ({interview.upvoteCount})</span>
@@ -121,8 +128,8 @@ export default function InterviewDetail() {
                 </div>
             </div>
 
-            <div style={{ marginTop: '3rem', maxWidth: '800px' }}>
-                <h3 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Comments</h3>
+            <div className="comments-section">
+                <h3 className="comments-title">Comments</h3>
 
                 {user && (
                     <form onSubmit={handleComment} style={{ marginBottom: '2rem' }}>
@@ -140,10 +147,10 @@ export default function InterviewDetail() {
 
                 <div style={{ display: 'grid', gap: '1rem' }}>
                     {interview.comments && interview.comments.map(comment => (
-                        <div key={comment.id} style={{ padding: '1rem', backgroundColor: 'var(--card-bg)', borderRadius: 'var(--radius-md)', border: '1px solid var(--border-color)' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.5rem' }}>
-                                <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>{comment.authorUsername}</span>
-                                <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>{new Date(comment.createdAt).toLocaleDateString()}</span>
+                        <div key={comment.id} className="comment-card">
+                            <div className="comment-header">
+                                <span className="comment-author">{comment.authorUsername}</span>
+                                <span className="comment-date">{new Date(comment.createdAt).toLocaleDateString()}</span>
                             </div>
                             <p style={{ fontSize: '0.9rem' }}>{comment.content}</p>
                         </div>

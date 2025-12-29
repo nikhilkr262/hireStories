@@ -1,0 +1,92 @@
+/* Navbar.css */
+.navbar {
+    background-color: var(--card-bg);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.nav-logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary);
+    text-decoration: none;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-user-section {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.nav-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    flex-direction: column;
+    justify-content: center;
+    gap: 4px;
+    padding: 0.5rem;
+}
+
+.hamburger-line {
+    width: 24px;
+    height: 2px;
+    background-color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+/* Mobile Styling */
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: flex;
+    }
+
+    .nav-links {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        background-color: var(--card-bg);
+        border-bottom: 1px solid var(--border-color);
+        padding: 1rem;
+        gap: 1rem;
+        box-shadow: var(--shadow-md);
+        transform: translateY(-150%);
+        transition: transform 0.3s ease-in-out;
+        z-index: -1; /* Behind navbar initially */
+        opacity: 0;
+    }
+
+    .nav-links.open {
+        transform: translateY(0);
+        z-index: 49;
+        opacity: 1;
+    }
+
+    .nav-user-section {
+        flex-direction: column;
+        width: 100%;
+        align-items: stretch;
+    }
+    
+    .nav-user-section .btn {
+        width: 100%;
+    }
+}

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import './Auth.css';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -62,9 +63,9 @@ export default function ForgotPassword() {
     };
 
     return (
-        <div className="container" style={{ maxWidth: '450px', padding: '4rem 0' }}>
+        <div className="container auth-container">
             <div className="card">
-                <h2 style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                <h2 className="auth-header">
                     {step === 1 ? 'Forgot Password' : 'Reset Password'}
                 </h2>
 
@@ -84,7 +85,7 @@ export default function ForgotPassword() {
                                 placeholder="Enter your registered email"
                             />
                         </div>
-                        <button disabled={loading} className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
+                        <button disabled={loading} className="btn btn-primary auth-btn">
                             {loading ? 'Sending...' : 'Send OTP'}
                         </button>
                     </form>
@@ -123,21 +124,21 @@ export default function ForgotPassword() {
                                 minLength={6}
                             />
                         </div>
-                        <button disabled={loading} className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
+                        <button disabled={loading} className="btn btn-primary auth-btn">
                             {loading ? 'Resetting...' : 'Reset Password'}
                         </button>
                         <button
                             type="button"
                             onClick={() => setStep(1)}
-                            className="btn btn-outline"
-                            style={{ width: '100%', marginTop: '0.5rem' }}
+                            className="btn btn-outline auth-btn"
+                            style={{ marginTop: '0.5rem' }}
                         >
                             Back
                         </button>
                     </form>
                 )}
 
-                <div style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.9rem' }}>
+                <div className="auth-footer">
                     <Link to="/login" style={{ color: 'var(--primary)' }}>Back to Login</Link>
                 </div>
             </div>

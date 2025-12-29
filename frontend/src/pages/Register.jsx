@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
+import './Auth.css';
 
 export default function Register() {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -23,9 +24,9 @@ export default function Register() {
     };
 
     return (
-        <div className="container" style={{ maxWidth: '400px', marginTop: '4rem' }}>
+        <div className="container auth-container">
             <div className="card">
-                <h2 style={{ marginBottom: '1.5rem', textAlign: 'center' }}>Create Account</h2>
+                <h2 className="auth-header">Create Account</h2>
                 {error && <div style={{ color: 'var(--error)', marginBottom: '1rem', fontSize: '0.875rem' }}>{error}</div>}
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
@@ -58,11 +59,11 @@ export default function Register() {
                             required
                         />
                     </div>
-                    <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '1rem' }}>
+                    <button type="submit" className="btn btn-primary auth-btn">
                         Register
                     </button>
                 </form>
-                <p style={{ marginTop: '1rem', textAlign: 'center', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                <p className="auth-footer">
                     Already have an account? <Link to="/login" style={{ color: 'var(--primary)' }}>Login</Link>
                 </p>
             </div>
