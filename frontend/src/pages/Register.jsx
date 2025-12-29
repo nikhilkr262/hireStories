@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import './Auth.css';
+import { getBaseUrl } from '../utils/config';
 
 export default function Register() {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
@@ -11,7 +12,7 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const baseUrl = import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:8081';
+            const baseUrl = getBaseUrl('auth');
             await axios.post(`${baseUrl}/auth/register`, formData);
             navigate('/login');
         } catch (err) {

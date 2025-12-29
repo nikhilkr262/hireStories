@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './Auth.css';
+import { getBaseUrl } from '../utils/config';
 
 export default function ForgotPassword() {
     const [email, setEmail] = useState('');
@@ -21,7 +22,7 @@ export default function ForgotPassword() {
         setError('');
         try {
             // Direct call to Auth Service (Port 8081)
-            const baseUrl = import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:8081';
+            const baseUrl = getBaseUrl('auth');
             await axios.post(`${baseUrl}/auth/forgot-password`, { email });
             setMessage('OTP sent to your email! (Check backend console for local dev)');
             setStep(2);
@@ -44,7 +45,7 @@ export default function ForgotPassword() {
         setMessage('');
         setError('');
         try {
-            const baseUrl = import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:8081';
+            const baseUrl = getBaseUrl('auth');
             await axios.post(`${baseUrl}/auth/reset-password`, {
                 email,
                 otp,

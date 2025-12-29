@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import './Home.css';
+import { getBaseUrl } from '../utils/config';
 
 export default function Home() {
     const [interviews, setInterviews] = useState([]);
@@ -12,7 +13,7 @@ export default function Home() {
 
     useEffect(() => {
         // Fetch recent interviews
-        const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+        const baseUrl = getBaseUrl('interview');
         axios.get(`${baseUrl}/interviews`)
             .then(res => setInterviews(res.data.slice(0, 3))) // Show top 3
             .catch(err => console.error(err))

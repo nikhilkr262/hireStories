@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './Resources.css';
+import { getBaseUrl } from '../utils/config';
 
 export default function Resources() {
     const [resources, setResources] = useState([]);
@@ -29,7 +30,7 @@ export default function Resources() {
         setError(null);
         try {
             // Direct call to Interview Service (Port 8082)
-            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            const baseUrl = getBaseUrl('interview');
             const res = await axios.get(`${baseUrl}/resources`);
             setResources(res.data);
         } catch (err) {
@@ -63,7 +64,7 @@ export default function Resources() {
 
         setUploading(true);
         try {
-            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            const baseUrl = getBaseUrl('interview');
             await axios.post(`${baseUrl}/resources`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -87,7 +88,7 @@ export default function Resources() {
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this resource?")) {
             try {
-                const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+                const baseUrl = getBaseUrl('interview');
                 await axios.delete(`${baseUrl}/resources/${id}`, {
                     headers: { 'X-Username': user.username }
                 });
@@ -115,7 +116,7 @@ export default function Resources() {
             }
         } else {
             // Trigger download via window.location or open in new tab
-            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            const baseUrl = getBaseUrl('interview');
             window.open(`${baseUrl}/resources/${id}/download`, '_blank');
         }
     };

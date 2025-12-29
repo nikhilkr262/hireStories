@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import './Auth.css';
+import { getBaseUrl } from '../utils/config';
 
 export default function Login() {
     const [formData, setFormData] = useState({ email: '', password: '' });
@@ -13,7 +14,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const baseUrl = import.meta.env.VITE_AUTH_SERVICE_URL || 'http://localhost:8081';
+            const baseUrl = getBaseUrl('auth');
             const res = await axios.post(`${baseUrl}/auth/login`, formData);
             login(res.data);
             navigate('/');

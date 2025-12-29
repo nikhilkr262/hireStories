@@ -1,7 +1,10 @@
 import axios from 'axios';
+import { getBaseUrl } from './config';
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_GATEWAY_URL || 'http://localhost:8080',
+    baseURL: getBaseUrl('gateway'), // Default to Gateway or specific if logic changes, but mostly used for authenticated calls which go to gateway? 
+    // Actually api.js seems unused in pages right now, they use axios direct. 
+    // But let's set it to getBaseUrl('auth')? No, 'gateway'.
 });
 
 api.interceptors.request.use((config) => {

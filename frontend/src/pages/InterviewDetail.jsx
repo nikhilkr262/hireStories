@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import './Interview.css';
+import { getBaseUrl } from '../utils/config';
 
 export default function InterviewDetail() {
     const { id } = useParams();
@@ -12,7 +13,7 @@ export default function InterviewDetail() {
     const [newComment, setNewComment] = useState('');
 
     const fetchInterview = () => {
-        const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+        const baseUrl = getBaseUrl('interview');
         axios.get(`${baseUrl}/interviews/${id}`)
             .then(res => setInterview(res.data))
             .catch(err => console.error(err))
@@ -26,7 +27,7 @@ export default function InterviewDetail() {
     const handleUpvote = async () => {
         if (!user) return alert('Login to upvote');
         try {
-            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            const baseUrl = getBaseUrl('interview');
             await axios.post(`${baseUrl}/interviews/${id}/upvote`, {}, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
@@ -40,7 +41,7 @@ export default function InterviewDetail() {
         e.preventDefault();
         if (!user) return alert('Login to comment');
         try {
-            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            const baseUrl = getBaseUrl('interview');
             await axios.post(`${baseUrl}/interviews/${id}/comments`, {
                 content: newComment,
                 authorUsername: user.username

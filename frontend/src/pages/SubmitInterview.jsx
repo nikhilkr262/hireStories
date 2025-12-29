@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import './Interview.css';
+import { getBaseUrl } from '../utils/config';
 
 export default function SubmitInterview() {
     const { user } = useAuth();
@@ -28,7 +29,7 @@ export default function SubmitInterview() {
 
         if (isEditMode) {
             // Fetch existing data
-            const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+            const baseUrl = getBaseUrl('interview');
             axios.get(`${baseUrl}/interviews/${id}`)
                 .then(res => {
                     // Start editing
@@ -58,7 +59,7 @@ export default function SubmitInterview() {
         e.preventDefault();
         try {
             if (isEditMode) {
-                const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+                const baseUrl = getBaseUrl('interview');
                 await axios.put(`${baseUrl}/interviews/${id}`, { ...formData, authorUsername: user.username }, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -67,7 +68,7 @@ export default function SubmitInterview() {
                 });
                 alert("Experience updated successfully!");
             } else {
-                const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+                const baseUrl = getBaseUrl('interview');
                 await axios.post(`${baseUrl}/interviews`, { ...formData, authorUsername: user.username }, {
                     headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
                 });

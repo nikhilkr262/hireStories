@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../contexts/AuthContext';
 import './Browse.css';
+import { getBaseUrl } from '../utils/config';
 
 export default function Browse() {
     const [interviews, setInterviews] = useState([]);
@@ -17,7 +18,7 @@ export default function Browse() {
         if (filters.company) params.company = filters.company;
         if (filters.jobRole) params.jobRole = filters.jobRole;
 
-        const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+        const baseUrl = getBaseUrl('interview');
         axios.get(`${baseUrl}/interviews`, { params })
             .then(res => setInterviews(res.data))
             .catch(err => console.error(err))
@@ -41,7 +42,7 @@ export default function Browse() {
     const handleDelete = async (id) => {
         if (window.confirm("Are you sure you want to delete this experience?")) {
             try {
-                const baseUrl = import.meta.env.VITE_INTERVIEW_SERVICE_URL || 'http://localhost:8082';
+                const baseUrl = getBaseUrl('interview');
                 await axios.delete(`${baseUrl}/interviews/${id}`, {
                     headers: { 'X-Username': user.username }
                 });
