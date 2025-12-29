@@ -20,9 +20,8 @@ export default function Login() {
             navigate('/');
         } catch (err) {
             console.error(err);
-            const errorMessage = err.response?.data
-                ? (typeof err.response.data === 'object' ? JSON.stringify(err.response.data) : err.response.data)
-                : err.message || 'Invalid credentials';
+            const responseData = err.response?.data;
+            const errorMessage = responseData?.message || responseData?.error || err.message || 'Invalid credentials';
             setError(errorMessage);
         }
     };

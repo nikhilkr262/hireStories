@@ -17,9 +17,8 @@ export default function Register() {
             navigate('/login');
         } catch (err) {
             console.error(err);
-            const errorMessage = err.response?.data
-                ? (typeof err.response.data === 'object' ? JSON.stringify(err.response.data) : err.response.data)
-                : err.message || 'Registration failed.';
+            const responseData = err.response?.data;
+            const errorMessage = responseData?.message || responseData?.error || err.message || 'Registration failed.';
             setError(errorMessage);
         }
     };
